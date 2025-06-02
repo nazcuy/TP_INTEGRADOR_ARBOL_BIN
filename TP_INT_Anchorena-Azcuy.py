@@ -19,10 +19,10 @@ def postorden():
 
 def menu_principal():
     print("\n***MENÚ PRINCIPAL***")
-    print("1. Ingrese nuevo valor.")
+    print("1. Ingrese nuevo valor.") #Hay que agregar con la lógica de que si es menor, va a la izquierda del arbol.
     print("2. Modificar valor.")
     print("3. Eliminar valor.")
-    print("4. Visualizar árbol.")
+    print("4. Visualizar árbol.") # Habría que mostrar cuántos grados y orden tiene el árbol. Y el peso (cantidad de nodos). Ver video
     print("5. Recorrido Preorden.")
     print("6. Recorrido Inorden.")
     print("7. Recorrido Postorden.")
