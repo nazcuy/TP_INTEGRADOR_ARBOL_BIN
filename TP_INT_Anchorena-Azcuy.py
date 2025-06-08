@@ -8,7 +8,7 @@ def crear_nodo(valor):
 
 def ingresar(arbol, valor):
     # Se verifica si el árbol/subárbol está vacío. de ser verdadero llama a la función crear_nodo:
-    if not arbol:
+    if arbol == []:
         return crear_nodo(valor)
     
     # Se obtiene el valor de la raíz actual
@@ -24,9 +24,48 @@ def ingresar(arbol, valor):
     #
     return arbol
 
-def modificar():
 
-def eliminar():
+def eliminar(arbol, valor):
+    # Verifica si el árbol está vacío, si está vacío, retorna la lista vacía.
+    if arbol == []:
+        return []
+    # Se obtiene el valor de la raíz actual
+    raiz = arbol[0]
+    # Busca el valor en la raíz
+    if valor < raiz:
+        arbol[1] = eliminar(arbol[1], valor)
+    elif valor > raiz:
+        arbol[2] = eliminar(arbol[2], valor)
+    # Encontramos el nodo a eliminar
+    else:
+        # Si el nodo no tiene hijos (hoja), retorna la lista vacía.
+        if arbol[1] == [] and arbol[2] == []:
+            return []
+        
+        # Si el nodo tiene un solo hijo (nodo rama)
+        elif arbol[1] == False:
+            return arbol[2]
+        elif arbol[2] == False:
+            return arbol[1]
+        
+        # Si el nodo tiene dos hijos
+        else:
+            # 4.1 Encontrar el sucesor inorden (mínimo en subárbol derecho)
+            min_val = encontrar_min(arbol[2])
+            # 4.2 Reemplazar valor actual por el mínimo
+            arbol[0] = min_val
+            # 4.3 Eliminar el valor mínimo del subárbol derecho
+            arbol[2] = eliminar(arbol[2], min_val)
+    
+    # 5. Devolver el árbol modificado
+    return arbol
+
+def modificar(arbol, valor_antiguo, valor_nuevo):
+    # Modifica un valor existente en el árbol.
+    # Primero eliminamos el valor antiguo
+    arbol = eliminar(arbol, valor_antiguo)
+    # Luego insertamos el nuevo valor
+    return ingresar(arbol, valor_nuevo)
 
 def visualizar():
 
