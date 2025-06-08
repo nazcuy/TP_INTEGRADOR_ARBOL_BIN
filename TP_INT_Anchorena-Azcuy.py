@@ -50,14 +50,13 @@ def eliminar(arbol, valor):
         
         # Si el nodo tiene dos hijos
         else:
-            # 4.1 Encontrar el sucesor inorden (mínimo en subárbol derecho)
+            # Encontrar el sucesor inorden (mínimo en subárbol derecho)
             min_val = encontrar_min(arbol[2])
-            # 4.2 Reemplazar valor actual por el mínimo
+            # Reemplazar valor actual por el mínimo
             arbol[0] = min_val
-            # 4.3 Eliminar el valor mínimo del subárbol derecho
+            # Eliminar el valor mínimo del subárbol derecho
             arbol[2] = eliminar(arbol[2], min_val)
-    
-    # 5. Devolver el árbol modificado
+    # Devolver el árbol modificado
     return arbol
 
 def modificar(arbol, valor_antiguo, valor_nuevo):
@@ -66,6 +65,7 @@ def modificar(arbol, valor_antiguo, valor_nuevo):
     arbol = eliminar(arbol, valor_antiguo)
     # Luego insertamos el nuevo valor
     return ingresar(arbol, valor_nuevo)
+
 
 def visualizar():
 
@@ -80,10 +80,10 @@ def postorden():
 
 def menu_principal():
     print("\n***MENÚ PRINCIPAL***")
-    print("1. Ingrese nuevo valor.") #Hay que agregar con la lógica de que si es menor, va a la izquierda del arbol.
-    print("2. Modificar valor.")
-    print("3. Eliminar valor.")
-    print("4. Visualizar árbol.") # Habría que mostrar cuántos grados y orden tiene el árbol. Y el peso (cantidad de nodos). Ver video
+    print("1. Ingrese nuevo valor.")
+    print("2. Eliminar valor.")
+    print("3. Modificar valor.")
+    print("4. Visualizar datos del árbol.")
     print("5. Recorrido Preorden.")
     print("6. Recorrido Inorden.")
     print("7. Recorrido Postorden.")
@@ -100,8 +100,17 @@ if __name__ == "__main__":
         opcion = int(input("Seleccione una opción:"))
 
         if opcion == 1:
+            valor = int(input("Ingrese un valor: "))
+            arbol = ingresar(arbol, valor)
+            print(f"El valor {valor} se ha ingresado correctamente.")
 
         elif opcion == 2:
+            if arbol == []:
+                print("Árbol vacío.")
+            else:
+                valor = int(input("Valor a eliminar: "))
+                arbol = eliminar(arbol, valor)
+                print(f"Valor {valor} eliminado correctamente.")
 
         elif opcion == 3:
 
