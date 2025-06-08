@@ -6,7 +6,23 @@
 def crear_nodo(valor):
     return [valor,[],[]]
 
-def ingresar():
+def ingresar(arbol, valor):
+    # Se verifica si el árbol/subárbol está vacío. de ser verdadero llama a la función crear_nodo:
+    if not arbol:
+        return crear_nodo(valor)
+    
+    # Se obtiene el valor de la raíz actual
+    raiz = arbol[0]
+
+    # Se compara el nuevo valor con la raiz:
+    if valor < raiz:
+        # Si es menor se inserta como hijo izquierdo:
+        arbol[1] = ingresar(arbol[1], valor)
+    elif valor > raiz:
+        #
+        arbol[2] = ingresar(arbol[2], valor)
+    #
+    return arbol
 
 def modificar():
 
