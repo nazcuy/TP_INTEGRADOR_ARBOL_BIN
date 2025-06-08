@@ -1,4 +1,10 @@
-def crear_nodo():
+# TRABAJO PRÁCTICO INTEGRADOR
+# PROGRAMACIÓN 1
+# TOMÁS ANCHORENA - AZCUY NICOLÁS
+
+# Crea un nodo representado como una lista [valor, hijo_izquierdo, hijo_derecho]
+def crear_nodo(valor):
+    return [valor,[],[]]
 
 def ingresar():
 
