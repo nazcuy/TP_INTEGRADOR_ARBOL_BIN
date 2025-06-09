@@ -2,39 +2,42 @@
 # PROGRAMACIÓN 1
 # TOMÁS ANCHORENA - AZCUY NICOLÁS
 
-# Crea un nodo representado como una lista [cod_libro, hijo_izquierdo, hijo_derecho]
+# Crea un nodo representado como una lista [nodo, hijo izquierdo, hijo derecho]
+# Cada ingreso corresponde al código de un libro nuevo ingresado al catálogo.
 def crear_nodo(cod_libro):
     return [cod_libro,[],[]]
 
 def ingresar(catalogo, cod_libro):
-    # Se verifica si el árbol/subárbol está vacío. de ser verdadero llama a la función crear_nodo:
+    # Se verifica si el catálogo está vacío. Si lo está, llama a la función crear_nodo:
     if catalogo == []:
         return crear_nodo(cod_libro)
     
-    # Se obtiene el cod_libro de la raíz actual
+    # Se obtiene el código del libro de la raíz actual del catálogo:
     raiz = catalogo[0]
 
-    # Se compara el nuevo cod_libro con la raiz:
+    # Se compara el nuevo código con la raiz:
     if cod_libro < raiz:
         # Si es menor se inserta como hijo izquierdo:
         catalogo[1] = ingresar(catalogo[1], cod_libro)
     elif cod_libro > raiz:
-        #
+        # Si es mayor se inserta como hijo derecho:
         catalogo[2] = ingresar(catalogo[2], cod_libro)
     #
     return catalogo
 
 
 def eliminar(catalogo, cod_libro):
-    # Verifica si el árbol está vacío, si está vacío, retorna la lista vacía.
+    # Verifica si el catálogo está vacío. Si lo está, retorna la lista vacía.
     if catalogo == []:
         return []
-    # Se obtiene el cod_libro de la raíz actual
+    # Se obtiene el código del libro de la raíz actual del catálogo:
     raiz = catalogo[0]
-    # Busca el cod_libro en la raíz
+    # Se compara el nuevo código con la raiz:
     if cod_libro < raiz:
+        # Si es menor, se llama a la función eliminar de forma recursiva...............................
         catalogo[1] = eliminar(catalogo[1], cod_libro)
     elif cod_libro > raiz:
+        # Si es mayor, se llama a la función eliminar de forma recursiva................................
         catalogo[2] = eliminar(catalogo[2], cod_libro)
     # Encontramos el nodo a eliminar
     else:
@@ -61,10 +64,10 @@ def eliminar(catalogo, cod_libro):
 
 
 def modificar(catalogo, libro_antiguo, libro_nuevo):
-    # Modifica un cod_libro existente en el árbol.
-    # Primero eliminamos el cod_libro antiguo
+    # Modifica un libro existente en el catálogo.
+    # Primero eliminamos el código del libro antiguo
     catalogo = eliminar(catalogo, libro_antiguo)
-    # Luego insertamos el nuevo cod_libro
+    # Luego insertamos el nuevo código del libro
     return ingresar(catalogo, libro_nuevo)
 
 
@@ -97,7 +100,7 @@ def menu_principal():
 # PROGRAMA PRINCIPAL
 
 if __name__ == "__main__":
-    print("\nAPLICACIÓN GESTIÓN DE ÁRBOL BINARIO")
+    print("\nAPLICACIÓN GESTIÓN DE BIBLIOTECA")
     catalogo = []
 
     while True:
@@ -135,6 +138,8 @@ if __name__ == "__main__":
         elif opcion == 7:
 
         elif opcion == 8:
+            print("Saliendo del programa...")
+            break
 
         else:
             print("Opción inválida. Intente nuevamente.")
