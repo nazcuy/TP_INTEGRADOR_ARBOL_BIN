@@ -7,6 +7,7 @@
 def crear_nodo(cod_libro):
     return [cod_libro,[],[]]
 
+# INGRESAR #
 def ingresar(catalogo, cod_libro):
     # Se verifica si el catálogo está vacío. Si lo está, llama a la función crear_nodo:
     if catalogo == []:
@@ -24,6 +25,14 @@ def ingresar(catalogo, cod_libro):
         catalogo[2] = ingresar(catalogo[2], cod_libro)
     #
     return catalogo
+
+
+# ELIMINAR # 
+def encontrar_min(subarbol):
+    actual = subarbol
+    while actual[1] != []:
+        actual = actual[1]
+    return actual[0]
 
 
 def eliminar(catalogo, cod_libro):
@@ -46,9 +55,9 @@ def eliminar(catalogo, cod_libro):
             return []
         
         # Si el nodo tiene un solo hijo (nodo rama)
-        elif catalogo[1] == False:
+        elif catalogo[1] == []:
             return catalogo[2]
-        elif catalogo[2] == False:
+        elif catalogo[2] == []:
             return catalogo[1]
         
         # Si el nodo tiene dos hijos
@@ -62,7 +71,7 @@ def eliminar(catalogo, cod_libro):
     # Devolver el árbol modificado
     return catalogo
 
-
+# MODIFICAR #
 def modificar(catalogo, libro_antiguo, libro_nuevo):
     # Modifica un libro existente en el catálogo.
     # Primero eliminamos el código del libro antiguo
@@ -71,18 +80,91 @@ def modificar(catalogo, libro_antiguo, libro_nuevo):
     return ingresar(catalogo, libro_nuevo)
 
 
-def visualizar():
+# VISUALIZAR # 
+def buscar_nodo(arbol, valor_buscado):
+    if arbol == []:
+        return None # <- Si no se encuentra ningún elemento, se retorna None para indicarlo
+    # Si el valor del nodo actual es el valor buscado, significa que encontramos el nodo
+    if arbol[0] == valor_buscado:
+        return arbol
+    # Si el valor es menor al valor del nodo actual, significa que solo puede estar en el subarbol izq.
+    elif valor_buscado < arbol[0]:
+        return buscar_nodo(arbol[1], valor_buscado)
+    # Caso contrario, si el valor no es menor ni es igual, por descarte es el mayor
+    else:
+        return buscar_nodo(arbol[2], valor_buscado)
+    
+def calcular_peso(arbol):
+    # Si el arbol está vacío, se retorna 0
+    if arbol == []:
+        return 0
+    # Sino, el peso se calcula sumando 1 más el peso de todos los subarboles izquierdo y derecho
+    return 1 + calcular_peso(arbol[1]) + calcular_peso(arbol[2])
 
+def calcular_grado(nodo):
+    # Inicializamos grado en 0
+    grado = 0
+    # Si la referencia al hijo izquierdo no está vacía, significa que el nodo tiene un hijo izquierdo 
+    # por lo que se incrementa el grado en 1
+    if nodo[1] != []:
+        grado += 1
+    # Si la referencia al hijo derecho no está vacía, significa que el nodo tiene un hijo derecho 
+    # por lo que se incrementa el grado en 1 
+    if nodo[2] != []:
+        grado += 1
+    return grado
 
-def orden():
+def visualizar(arbol, valor_buscado):
+    # Intenta encontrar el nodo con el valor buscado en el árbol
+    nodo = buscar_nodo(arbol, valor_buscado)
+    # Si es None, no encontró el valor
+    if nodo is None:
+        print("El código no se encuentra en el catálogo.")
+    # Caso contrario, si el nodo fue encontrado, se muestra la información del código encontrado
+    else:
+        print(f"\nInformación del código {valor_buscado}:")
+        print(f"Peso total del árbol: {calcular_peso(arbol)}")
+        print(f"Grado del nodo: {calcular_grado(nodo)}")
 
+    
+# ORDENES DE RECORRIDO
+def preorden(arbol):
+    # Si el árbol no está vacío, se ejecuta lo siguiente
+    if arbol != []:
+        # Mostramos el valor del nodo actual
+        print(arbol[0])
+        # Recorremos de manera recursiva ambos subarboles
+        preorden(arbol[1])
+        preorden(arbol[2])
+    # Si el árbol está vacío, la función termina con return
+    else:
+        return
 
-def preorden():
+def inorden(arbol):
+    # Igual que en el preorden, chequeamos el valor de arbol
+    if arbol != []:
+        # Recorremos subarbol izquierdo
+        inorden(arbol[1])
+        # Mostramos el valor del nodo actual
+        print(arbol[0])
+        # Recorremos subarbol derecho
+        inorden(arbol[2])
+    # Si el árbol está vacío, la función termina con return
+    else:
+        return
 
-def inorden():
-
-def postorden():
-
+def postorden(arbol):
+    # Nuevamente, arból con elementos, ejecutamos lo de adentro
+    if arbol != []:
+        # Se recorre recursivamente el subarbol izquierdo
+        postorden(arbol[1])
+        # Se recorre recursivamente el subarbol derecho
+        postorden(arbol[2])
+        # Se imprime el valor del nodo actual
+        print(arbol[0])
+    # Si el árbol está vacío, la función termina con return
+    else:
+        return
 
 
 
@@ -130,16 +212,30 @@ if __name__ == "__main__":
                 print(f"El cod_libro {antiguo} fue modificado por {nuevo} correctamente.")
 
         elif opcion == 4:
-
+            if catalogo == []:
+                print("Catálogo vacío.")
+            else:
+                valor = int(input("Ingrese el código del libro a visualizar: "))
+                visualizar(catalogo, valor)
         elif opcion == 5:
-
+            if catalogo == []:
+                print("Catálogo vacío.")
+            else:
+                print("Listado en recorrido Preorden:")
+                preorden(catalogo)
         elif opcion == 6:
-
+            if catalogo == []:
+                print("Catálogo vacío.")
+            else:
+                print("Listado en recorrido Inorden:")
+                inorden(catalogo)
         elif opcion == 7:
-
+            if catalogo == []:
+                print("Catálogo vacío.")
+            else:
+                print("Listado en recorrido Postorden:")
+                postorden(catalogo)
         elif opcion == 8:
-            print("Saliendo del programa...")
-            break
 
         else:
             print("Opción inválida. Intente nuevamente.")
