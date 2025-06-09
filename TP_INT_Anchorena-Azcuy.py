@@ -2,72 +2,77 @@
 # PROGRAMACIÓN 1
 # TOMÁS ANCHORENA - AZCUY NICOLÁS
 
-# Crea un nodo representado como una lista [valor, hijo_izquierdo, hijo_derecho]
-def crear_nodo(valor):
-    return [valor,[],[]]
+# Crea un nodo representado como una lista [cod_libro, hijo_izquierdo, hijo_derecho]
+def crear_nodo(cod_libro):
+    return [cod_libro,[],[]]
 
-def ingresar(arbol, valor):
+def ingresar(catalogo, cod_libro):
     # Se verifica si el árbol/subárbol está vacío. de ser verdadero llama a la función crear_nodo:
-    if arbol == []:
-        return crear_nodo(valor)
+    if catalogo == []:
+        return crear_nodo(cod_libro)
     
-    # Se obtiene el valor de la raíz actual
-    raiz = arbol[0]
+    # Se obtiene el cod_libro de la raíz actual
+    raiz = catalogo[0]
 
-    # Se compara el nuevo valor con la raiz:
-    if valor < raiz:
+    # Se compara el nuevo cod_libro con la raiz:
+    if cod_libro < raiz:
         # Si es menor se inserta como hijo izquierdo:
-        arbol[1] = ingresar(arbol[1], valor)
-    elif valor > raiz:
+        catalogo[1] = ingresar(catalogo[1], cod_libro)
+    elif cod_libro > raiz:
         #
-        arbol[2] = ingresar(arbol[2], valor)
+        catalogo[2] = ingresar(catalogo[2], cod_libro)
     #
-    return arbol
+    return catalogo
 
 
-def eliminar(arbol, valor):
+def eliminar(catalogo, cod_libro):
     # Verifica si el árbol está vacío, si está vacío, retorna la lista vacía.
-    if arbol == []:
+    if catalogo == []:
         return []
-    # Se obtiene el valor de la raíz actual
-    raiz = arbol[0]
-    # Busca el valor en la raíz
-    if valor < raiz:
-        arbol[1] = eliminar(arbol[1], valor)
-    elif valor > raiz:
-        arbol[2] = eliminar(arbol[2], valor)
+    # Se obtiene el cod_libro de la raíz actual
+    raiz = catalogo[0]
+    # Busca el cod_libro en la raíz
+    if cod_libro < raiz:
+        catalogo[1] = eliminar(catalogo[1], cod_libro)
+    elif cod_libro > raiz:
+        catalogo[2] = eliminar(catalogo[2], cod_libro)
     # Encontramos el nodo a eliminar
     else:
         # Si el nodo no tiene hijos (hoja), retorna la lista vacía.
-        if arbol[1] == [] and arbol[2] == []:
+        if catalogo[1] == [] and catalogo[2] == []:
             return []
         
         # Si el nodo tiene un solo hijo (nodo rama)
-        elif arbol[1] == False:
-            return arbol[2]
-        elif arbol[2] == False:
-            return arbol[1]
+        elif catalogo[1] == False:
+            return catalogo[2]
+        elif catalogo[2] == False:
+            return catalogo[1]
         
         # Si el nodo tiene dos hijos
         else:
             # Encontrar el sucesor inorden (mínimo en subárbol derecho)
-            min_val = encontrar_min(arbol[2])
-            # Reemplazar valor actual por el mínimo
-            arbol[0] = min_val
-            # Eliminar el valor mínimo del subárbol derecho
-            arbol[2] = eliminar(arbol[2], min_val)
+            min_val = encontrar_min(catalogo[2])
+            # Reemplazar cod_libro actual por el mínimo
+            catalogo[0] = min_val
+            # Eliminar el cod_libro mínimo del subárbol derecho
+            catalogo[2] = eliminar(catalogo[2], min_val)
     # Devolver el árbol modificado
-    return arbol
+    return catalogo
 
-def modificar(arbol, valor_antiguo, valor_nuevo):
-    # Modifica un valor existente en el árbol.
-    # Primero eliminamos el valor antiguo
-    arbol = eliminar(arbol, valor_antiguo)
-    # Luego insertamos el nuevo valor
-    return ingresar(arbol, valor_nuevo)
+
+def modificar(catalogo, libro_antiguo, libro_nuevo):
+    # Modifica un cod_libro existente en el árbol.
+    # Primero eliminamos el cod_libro antiguo
+    catalogo = eliminar(catalogo, libro_antiguo)
+    # Luego insertamos el nuevo cod_libro
+    return ingresar(catalogo, libro_nuevo)
 
 
 def visualizar():
+
+
+def orden():
+
 
 def preorden():
 
@@ -80,39 +85,46 @@ def postorden():
 
 def menu_principal():
     print("\n***MENÚ PRINCIPAL***")
-    print("1. Ingrese nuevo valor.")
-    print("2. Eliminar valor.")
-    print("3. Modificar valor.")
-    print("4. Visualizar datos del árbol.")
-    print("5. Recorrido Preorden.")
-    print("6. Recorrido Inorden.")
-    print("7. Recorrido Postorden.")
+    print("1. Registrar nuevo código único del libro.")
+    print("2. Eliminar libro.")
+    print("3. Modificar libro ingresado.")
+    print("4. Visualizar datos del catálogo.")
+    print("5. Listar códigos (Preorden).")
+    print("6. Listar códigos (Inorden).")
+    print("7. Listar códigos (Postorden).")
     print("8. Salir.")
 
 # PROGRAMA PRINCIPAL
 
 if __name__ == "__main__":
     print("\nAPLICACIÓN GESTIÓN DE ÁRBOL BINARIO")
-    arbol = []
+    catalogo = []
 
     while True:
         menu_principal()
         opcion = int(input("Seleccione una opción:"))
 
         if opcion == 1:
-            valor = int(input("Ingrese un valor: "))
-            arbol = ingresar(arbol, valor)
-            print(f"El valor {valor} se ha ingresado correctamente.")
+            cod_libro = int(input("Ingrese un cod_libro: "))
+            catalogo = ingresar(catalogo, cod_libro)
+            print(f"El cod_libro {cod_libro} se ha ingresado correctamente.")
 
         elif opcion == 2:
-            if arbol == []:
+            if catalogo == []:
                 print("Árbol vacío.")
             else:
-                valor = int(input("Valor a eliminar: "))
-                arbol = eliminar(arbol, valor)
-                print(f"Valor {valor} eliminado correctamente.")
+                cod_libro = int(input("cod_libro a eliminar: "))
+                catalogo = eliminar(catalogo, cod_libro)
+                print(f"cod_libro {cod_libro} eliminado correctamente.")
 
         elif opcion == 3:
+            if catalogo == []:
+                print("Árbol vacío.")
+            else:
+                antiguo = int(input("cod_libro a modificar: "))
+                nuevo = int(input("Ingrese el nuevo cod_libro: "))
+                catalogo = modificar(catalogo, antiguo, nuevo)
+                print(f"El cod_libro {antiguo} fue modificado por {nuevo} correctamente.")
 
         elif opcion == 4:
 
