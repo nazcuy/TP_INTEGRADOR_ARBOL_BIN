@@ -28,8 +28,8 @@ def ingresar(catalogo, cod_libro):
 
 
 # ELIMINAR # 
-def encontrar_min(subarbol):
-    actual = subarbol
+def encontrar_min(subcatalogo):
+    actual = subcatalogo
     while actual[1] != []:
         actual = actual[1]
     return actual[0]
@@ -43,10 +43,10 @@ def eliminar(catalogo, cod_libro):
     raiz = catalogo[0]
     # Se compara el nuevo código con la raiz:
     if cod_libro < raiz:
-        # Si es menor, se llama a la función eliminar de forma recursiva...............................
+        # Si es menor, se llama a la función eliminar de forma recursiva.
         catalogo[1] = eliminar(catalogo[1], cod_libro)
     elif cod_libro > raiz:
-        # Si es mayor, se llama a la función eliminar de forma recursiva................................
+        # Si es mayor, se llama a la función eliminar de forma recursiva.
         catalogo[2] = eliminar(catalogo[2], cod_libro)
     # Encontramos el nodo a eliminar
     else:
@@ -81,27 +81,29 @@ def modificar(catalogo, libro_antiguo, libro_nuevo):
 
 
 # VISUALIZAR # 
-def buscar_nodo(arbol, valor_buscado):
-    if arbol == []:
+def buscar_nodo(catalogo, valor_buscado):
+    if catalogo == []:
         return None # <- Si no se encuentra ningún elemento, se retorna None para indicarlo
     # Si el valor del nodo actual es el valor buscado, significa que encontramos el nodo
-    if arbol[0] == valor_buscado:
-        return arbol
+    if catalogo[0] == valor_buscado:
+        return catalogo
     # Si el valor es menor al valor del nodo actual, significa que solo puede estar en el subarbol izq.
-    elif valor_buscado < arbol[0]:
-        return buscar_nodo(arbol[1], valor_buscado)
+    elif valor_buscado < catalogo[0]:
+        return buscar_nodo(catalogo[1], valor_buscado)
     # Caso contrario, si el valor no es menor ni es igual, por descarte es el mayor
     else:
-        return buscar_nodo(arbol[2], valor_buscado)
+        return buscar_nodo(catalogo[2], valor_buscado)
     
-def calcular_peso(arbol):
+def calcular_peso(catalogo):
+    # Peso: Es el número total de nodos que tiene un árbol.
     # Si el arbol está vacío, se retorna 0
-    if arbol == []:
+    if catalogo == []:
         return 0
     # Sino, el peso se calcula sumando 1 más el peso de todos los subarboles izquierdo y derecho
-    return 1 + calcular_peso(arbol[1]) + calcular_peso(arbol[2])
+    return 1 + calcular_peso(catalogo[1]) + calcular_peso(catalogo[2])
 
 def calcular_grado(nodo):
+    # Grado: de un nodo es el número de hijos que tiene dicho nodo. El grado de un árbol es el grado máximo de los nodos del árbol.
     # Inicializamos grado en 0
     grado = 0
     # Si la referencia al hijo izquierdo no está vacía, significa que el nodo tiene un hijo izquierdo 
@@ -114,54 +116,64 @@ def calcular_grado(nodo):
         grado += 1
     return grado
 
-def visualizar(arbol, valor_buscado):
+def visualizar(catalogo, valor_buscado):
     # Intenta encontrar el nodo con el valor buscado en el árbol
-    nodo = buscar_nodo(arbol, valor_buscado)
+    nodo = buscar_nodo(catalogo, valor_buscado)
     # Si es None, no encontró el valor
     if nodo is None:
         print("El código no se encuentra en el catálogo.")
     # Caso contrario, si el nodo fue encontrado, se muestra la información del código encontrado
     else:
-        print(f"\nInformación del código {valor_buscado}:")
-        print(f"Peso total del árbol: {calcular_peso(arbol)}")
+        print(f"\n----Información del libro encontrado. Código: {valor_buscado} ---")
+        print(f"Peso total del árbol: {calcular_peso(catalogo)}")
+        print(f"Peso del subárbol desde el nodo encontrado: {calcular_peso(nodo)}")
         print(f"Grado del nodo: {calcular_grado(nodo)}")
+        if nodo[1] != []:
+            print(f"  Hijo izquierdo: {nodo[1][0]}")
+        else:
+            print("  Hijo izquierdo: Ninguno")
+        if nodo[2] != []:
+            print(f"  Hijo derecho: {nodo[2][0]}")
+        else:
+            print("  Hijo derecho: Ninguno")
+    
 
     
 # ORDENES DE RECORRIDO
-def preorden(arbol):
+def preorden(catalogo):
     # Si el árbol no está vacío, se ejecuta lo siguiente
-    if arbol != []:
+    if catalogo != []:
         # Mostramos el valor del nodo actual
-        print(arbol[0])
+        print(catalogo[0])
         # Recorremos de manera recursiva ambos subarboles
-        preorden(arbol[1])
-        preorden(arbol[2])
+        preorden(catalogo[1])
+        preorden(catalogo[2])
     # Si el árbol está vacío, la función termina con return
     else:
         return
 
-def inorden(arbol):
+def inorden(catalogo):
     # Igual que en el preorden, chequeamos el valor de arbol
-    if arbol != []:
+    if catalogo != []:
         # Recorremos subarbol izquierdo
-        inorden(arbol[1])
+        inorden(catalogo[1])
         # Mostramos el valor del nodo actual
-        print(arbol[0])
+        print(catalogo[0])
         # Recorremos subarbol derecho
-        inorden(arbol[2])
+        inorden(catalogo[2])
     # Si el árbol está vacío, la función termina con return
     else:
         return
 
-def postorden(arbol):
+def postorden(catalogo):
     # Nuevamente, arból con elementos, ejecutamos lo de adentro
-    if arbol != []:
+    if catalogo != []:
         # Se recorre recursivamente el subarbol izquierdo
-        postorden(arbol[1])
+        postorden(catalogo[1])
         # Se recorre recursivamente el subarbol derecho
-        postorden(arbol[2])
+        postorden(catalogo[2])
         # Se imprime el valor del nodo actual
-        print(arbol[0])
+        print(catalogo[0])
     # Si el árbol está vacío, la función termina con return
     else:
         return
@@ -187,29 +199,29 @@ if __name__ == "__main__":
 
     while True:
         menu_principal()
-        opcion = int(input("Seleccione una opción:"))
+        opcion = int(input("\nSeleccione una opción: "))
 
         if opcion == 1:
-            cod_libro = int(input("Ingrese un cod_libro: "))
+            cod_libro = int(input("Ingrese un código del libro: "))
             catalogo = ingresar(catalogo, cod_libro)
-            print(f"El cod_libro {cod_libro} se ha ingresado correctamente.")
+            print(f"\nEl código del libro {cod_libro} se ha ingresado correctamente.")
 
         elif opcion == 2:
             if catalogo == []:
-                print("Árbol vacío.")
+                print("Catálogo vacío.")
             else:
-                cod_libro = int(input("cod_libro a eliminar: "))
+                cod_libro = int(input("Código del libro a eliminar: "))
                 catalogo = eliminar(catalogo, cod_libro)
-                print(f"cod_libro {cod_libro} eliminado correctamente.")
+                print(f"\nCódigo del libro {cod_libro} eliminado correctamente.")
 
         elif opcion == 3:
             if catalogo == []:
-                print("Árbol vacío.")
+                print("Catálogo vacío.")
             else:
-                antiguo = int(input("cod_libro a modificar: "))
-                nuevo = int(input("Ingrese el nuevo cod_libro: "))
+                antiguo = int(input("Ingrese código del libro a modificar: "))
+                nuevo = int(input("Ingrese el nuevo código del libro: "))
                 catalogo = modificar(catalogo, antiguo, nuevo)
-                print(f"El cod_libro {antiguo} fue modificado por {nuevo} correctamente.")
+                print(f"\nEl código del libro {antiguo} fue modificado por {nuevo} correctamente.")
 
         elif opcion == 4:
             if catalogo == []:
@@ -236,6 +248,8 @@ if __name__ == "__main__":
                 print("Listado en recorrido Postorden:")
                 postorden(catalogo)
         elif opcion == 8:
+            print("Saliendo del programa.")
+            break
 
         else:
             print("Opción inválida. Intente nuevamente.")
