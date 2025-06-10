@@ -11,6 +11,9 @@
 - Anchorena Tomás
 - Azcuy Nicolás
 
+## Link al video en YouTube
+https://www.youtube.com/watch?v=964ojFzxwx4
+
 ## Descripción del proyecto
 
 Este trabajo integrador consiste en la implementación de un **árbol binario** utilizando **listas en Python**, como estructura para gestionar un catálogo de libros mediante su código numérico único.
